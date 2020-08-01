@@ -1,0 +1,14 @@
+# Simulation
+
+### Lecture 01 - Introduction to Simulation
+
+- Simulation: Imitate the operations of a facility or process, usually via computer
+  - Facility or process of interest that is to be simulated is the system
+  - To study the system, often assumptions/approximations, both logical and mathematical, are made and hence a model is formed
+  - Model is solved by mathematical methods to get simulation (in terms of measures of performance)
+
+# Tableau
+
+### Lecture 3 - Installation
+
+- Install Tableau from the [Tableau](https://www.tableau.com/) site
