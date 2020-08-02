@@ -223,3 +223,94 @@
   - The number of objects on your chart. You should use as many colours as possible. Ideally, every object should have a unique color.
   - **The main thing to take into account is the end user / viewer. Colours should assist them in seeing the insights your chart is portraying.**
   - Colours don't matter in Data Science visualizations. Random or default colours should be fine.
+
+## Section 3 - Time series, Aggregation, and Filters
+
+### Lecture 1 (18) - Section Intro
+
+- Looking at a data set containing information about long-term unemployment rates in the U.S. for the past couple of years
+- Visualize how things change, trends, and breaking them down by different categories
+  - Working with and visualizing time series data
+- Granularity and aggregation
+  - Foundation of Tableau
+  - Understand what is going on behind the visuals being created
+- Filters and quick filters
+- Final product will be an (formatted) area chart
+
+### Lecture 2 (19) - Working with Data Extracts in Tableau
+
+- Download the data set from the course [site](https://www.superdatascience.com/pages/tableau)
+  - Section 3: Timeseries, Aggregation and Filters > Long-Term-Unemployment-Statistics.xlsx
+- Explore the data
+  - A lot of "duplicate" records in many of the columns
+    - Effectively the data is broken down by age, gender, and period &rarr; so many different age groups that gender and period get repeated
+  - Data is structured in a very non-human like way
+    - Not a good way to quickly and efficiently present the data
+    - Easy to import into Tableau
+  - A better way of presenting the data would be something that does not duplicate the ages or genders
+  - ![Present Data Better](Images/BetterPresentData.jpg)
+    - Harder to import into Tableau
+- Open Tableau and connect to the data source
+  - To a File > Microsoft Excel
+- Working with Extract(s)
+  - In the Worksheet, underneath the Data tab, there is Sheet1 (P1-Long-Term-U...), which is the data
+    - Right-click and select "Extract Data..."
+      - Creates an extract for Tableau to work from
+    - Click the "Extract" button
+    - Select the save location and click the "Save" button
+    - Note how the icon has changed
+  - Instead of working or connecting to live data, the data is extracted into a separate file and kept there
+    - Changing the extract will not change the data in the original data source and vice versa
+      - Can right-click on the data source, choose Extract, and then select "Refresh" to get around
+  - Not really necessary when working with small data sets, but using the Live connection may be slow and-or unreliable when working with large data sets
+    - Can always go back to live by right-clicking on the data source and unchecking "Use Extract"
+  - More about extracts can be found (here)[https://help.tableau.com/current/pro/desktop/en-us/extracting_data.htm#:~:text=Extracts%20are%20saved%20subsets%20of,filters%20and%20configuring%20other%20limits.]
+
+### Lecture 3 (20) - Working with Time Series
+
+- Save the workbook
+- Look at the data
+  - Right-click on the data source and select "View Data"
+  - Age, Gender, Period, and Unemployed values
+  - Want to see how unemployment changes over time (i.e. as the period changes)
+- Double-click on "Unemployed" and then double-click on "Period"
+  - Observe the results
+    - Put Unemployed into Rows and summed it up
+    - Put Period into Columns and taken the year of the Period
+    - Aggregation
+      - Tableau is taking all of the data it can see for a year and summing up all of the values in all of the rows for that year (irrespective of gender, month, etc.)
+- Initial result is missing granularity or the finer details
+  - How to get?
+  - Under Columns > Hover over YEAR(Period) and select the dropdown
+    - Note that there are two sections responsible for time
+      - What is the difference between the two sections?
+        - The first section treats the selected timeframe as a dimension
+        - The second section treats the selected timeframe as a measure
+          - Year > Quarter > Month ... Least granularity (resolution) > Most granularity (resolution)
+      - Click on "Month" in the first section
+        - No longer have years at the bottom but have months
+        - Only one of each month instead of many of each month
+        - Tableau is taking the data for each individual month, aggregating (summing) it, and then summing all of that month across all the years (i.e. January on the Chart = January 2005 + January 2006 + ... + January 2015)
+          - No real meaning to this value or visualization
+          - Occuring because Tableau is recognizing MONTH as a dimension
+          - Tableau is creating a calculation (which is, effectively, a new variable that Tableau recognizes as a dimension) &rarr; double-click on "MONTH(Period)" to see the calculation
+          - Treating the new variable as a dimension or categorical variable
+            - Only has 12 categories and is putting data into those categories
+      - Want a timeline, not different categories of months &rarr; Click on "Month" in the second section
+        - Chart has changed
+        - Notice that MONTH(Period) is now green and therefore is being recognized as a measure
+- Tableau always highlights Dimensions in blue and Measures in green
+- Need to understand what you want from your time data
+  - Do you want it to be a dimension or measure?
+  - How much granularity (resolution) do you want?
+- Verify data
+  - Google search for "unemployment 27 weeks fred"
+  - [Unemployment Data](https://fred.stlouisfed.org/series/UEMP27OV)
+  - Similar looking charts
+    - Some differences, which will occur due to different data sources, but well within reason
+
+### Lecture 4 (21) - Understanding Aggregation, Granularity, and Level of Detail
+
+- Aggregations and granularity are foundational to Tableau
+- Aggregations
+- Granularity
