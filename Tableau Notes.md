@@ -311,6 +311,133 @@
 
 ### Lecture 4 (21) - Understanding Aggregation, Granularity, and Level of Detail
 
-- Aggregations and granularity are foundational to Tableau
-- Aggregations
-- Granularity
+- Aggregations and granularity are foundational to Tableau (i.e. they govern how Tableau operates)
+- Chart shows unemployment in the U.S. from month-to-month from 2005 to 2015
+  - How does Tableau know that we want to see the visualization of the data at the monthly level?
+  - How does Tableau know that the aggregation it is doing, i.e. summing up the Unemployed variable, how does it know that we want to see the data visualized at the monthly level (i.e. to sum up the variable at the monthly level)?
+  - Answer: Tableau will always aggregate measures at the level of granularity of your worksheet
+    - Variable MONTH(Period) &rarr; Tableau knows that the plotting is to be done at the level, or granularity, of one month
+    - What happens if we remove MONTH(Period) from Columns?
+      - Tableau has no idea what granularity we want to see the worksheet and therefore just assumes the broadest level possible (i.e. at the level of the whole data set) &rarr; will sum up all values for the Unemployed variable into a single value and visualizes that
+- The concept behind Tableau is that Measures get aggregated and Dimensions specify the level of granularity
+  - In our case, even though MONTH(Period) is a measure, it is the variable that is specifying the level of granularity
+    - Result of introducing the axis, or timeline, at the bottom which specifies that the granularity should be at the monthly level
+- Alter aggregation
+  - Go to the navigation bar and select "Analysis" &rarr; De-select "Aggregate Measures"
+  - Select the dropdown under Marks and choose "Shape"
+  - Instead of aggregating the data, Tableau is plotting Unemployed, i.e. Tableau is separately plotting every single row of the data set
+    - Lots of points due to having different age groups, genders, etc.
+    - The total numer of marks can be found in the lower left corner and is now equal to the number of rows in our data set
+  - Turn aggregation back on
+- Instead of switching aggregation off, introduce a dimension which will change the level of granularity and therefore affect the aggregation
+  - Drag "Gender" onto Color
+    - Blue represents male unemployment for that month
+    - Orange represents female unemployment for that month
+  - Tableau knows that we want to see all the measures aggregated at the level of month plus gender
+    - The chart has become more granular
+  - Add more Dimensions to increase granularity
+    - Drag Age onto Shape
+    - Tableau knows that the sum now needs to be calculated using month, gender, and age
+- Different types of aggregations that are available
+  - Change from SUM(Unemployed)
+    - Rows > SUM(Unemployed) > Click on dropdown and select "Measure (Sum)" > "Measure (Average)"
+      - Chart does not change much, but the axis does
+- Detail
+  - Increase level of granularity &rarr; make dashboard more detailed, but do not want to drag any Dimensions onto Color, Shape, etc. (i.e. you do not want to affect the visual)
+  - Use "Detail" which is under Marks
+  - Drag Age onto Detail
+    - Shapes have not changed, but granularity of the chart has changed
+  - Add Dimensions and Measures to the dashboard to increase granularity without affecting the visual representation
+  - Control at which level the aggregation is going to happen
+
+### Lecture 5 (22) - Creating an Area Chart & Learning About Highlighting
+
+- How to create an area chart
+- Chart at present is way too cluttered to present any insightful information
+  - May come across a chart like this when doing data discovery process &rarr; may need to look for anomalies, trends, and patterns in a chart that is not perfect
+  - For every month there are 14 (seven age groups and two genders &rarr; 14) observations present
+  - What happens if you want to investigate one gender?
+    - Can restructure the chart and just leave the one gender of interest OR
+    - Can use highlighting &rarr; achieve the same result, but much faster
+      - Go to legend and click on the gender you are interested in
+  - What about highlighting age?
+    - Age as a level of granularity obtained by dragging Age into Detail, so not a Color, Shape, etc.
+    - Highlighting age requires giving it some sort of visual representation or chart
+      - Drag Age into Shape
+      - Click on button in the Age legend that says "Highlight Selected Items"
+      - Focus on different unemployments for different age groups
+- Create an area chart
+  - Take Gender out
+  - Take Age out
+  - Change to Automatic/Line
+  - Change to SUM(Unemployed)
+  - Take Age and drag into Color &rarr; many lines with the chart ranging from 0 to 1.6 million w/ every single line being independent
+    - Visual is not very useful, not easy to understand &rarr; change the visualization to a different type
+      - Can use Show Me and click around to find a chart type that works
+        - Select area charts (continuous)
+      - Area chart from scratch
+        - Select the dropdown under Marks and go to Area
+        - Unemployment rates now stacked on top of one another
+        - Notice the difference in the axis between the Line and the Area charts
+          - When stacked, the unemployment is summed
+          - The unemployment for each age group is given by the pop-up
+        - Add some labels and format to make everything clearer
+          - CTRL and drag Age onto Label
+          - Change the size of the label to 12 and make bold
+
+### Lecture 6 (23) - Adding a Filter and Quick Filter
+
+- Adding a filter
+  - What information is missing on the chart? &rarr; Gender
+    - One way to add gender to the chart is by putting gender into a filter
+      - Take Gender or the variable that you want to add as a filter and put it into the "Filters" shelf
+        - Filter pop-up displays and can add settings to the filter
+          - "Select from list" is for Dimensions
+          - Click on the "All" button
+          - Exclude allows you to filter out what you do not want to see
+          - Chart did not change, but now Gender is a filter
+          - Can use the dropdown and select "Edit Filter..." to edit the filter and show only men, only women, or both men and women
+- Quick filter
+  - Use the dropdown and select "Show Filter" to see the filter and turn off and on the filter as desired
+  - Dropdown on newly created quick filter allows you to select different types of filter (e.g. Single Values, Multiple Values, etc.)
+- Create a filter and quick filter for age
+  - See what you obtain when selecting a different type of filter (e.g. Single Value (list))
+  - Remove the filter and quick filter for age
+- Format the axes and the title
+
+### Quiz 2: Timeseries, Aggregation, and Filters
+
+- Question 1: Which of these is a valid reason to use a Data Extract over a Live Connection to the Dataset in Tableau?
+
+  - Extracts always take up less space than the data
+  - Extracting data automatically fixes any data errors
+  - Your Data is in Excel therefore you have to create an extract to work in Tableau
+  - **Your Data is constantly being updated and you want to work with a static file when building your visual (you will later return to the live connection when the visual is ready)**
+
+- Question 2: What is the difference between the Blue Month() and the Green Month() in Tableau?
+
+  - **Blue is a dimension and Green is a measure; Blue ignores higher periods such as year and treats month as a category - just like Gender; Green creates a proper timeline**
+  - Blue is a measure and Green is a dimension; Blue ignores higher periods such as year and treats month as a category - just like Gender; Green creates a proper timeline
+  - Blue is a dimension and Green is a measure; Green ignores higher periods such as year and treats month as a category - just like Gender; Blue creates a proper timeline
+  - Blue is a measure and Green is a dimension; Green ignores higher periods such as year and treats month as a category - just like Gender; Blue creates a proper timeline
+
+- Question 3: How does Tableau know at which level to aggregate values?
+
+  - Values are always aggregated at the Month level
+  - Values are always aggregated at one level above the level of granularity of the worksheet
+  - **Values are always aggregated at the level of granularity of the worksheet**
+  - Values are always aggregated at the maximum level of granularity of all of the worksheets in the workbook
+
+- Question 4: Which of these explains the conceptual difference between a line chart and an area chart?
+
+  - In a line chart lines cannot cross, but they can cross in an area chart
+  - **An area chart stacks up values of different categories on top of each other, whereas a lilne chart visualizes them separately**
+  - An area chart always has more colours than a line chart
+  - You can use colour highlighting on an area chart, but not on a line chart
+
+- Question 5: Which of these is NOT a type of Quick Filter available in Tableau?
+
+  - Single Value (List)
+  - Multiple Values (List)
+  - Wildcard Match
+  - **JSON Lookup (Category)**
